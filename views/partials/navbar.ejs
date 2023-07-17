@@ -1,0 +1,128 @@
+<style>
+    .navbar .nav-link {
+        color: #252c69 !important;
+    }
+    .sbtvc-logo {
+        width: 27rem;
+    }
+    @media (max-width: 960px){
+        .sbtvc-logo {
+            width: 15rem;
+        }
+    }
+</style>
+
+
+<nav class="navbar navbar-expand-lg navbar-dark d-lg-block" style="z-index: 2000;">
+    <div class="container">
+        
+        <a class="navbar-brand nav-link" href="/p/home">
+            <img class="sbtvc-logo" src="../assets/images/logo.png" alt="">
+        </a>
+        <button class="navbar-toggler" type="button" data-mdb-toggle="collapse" data-mdb-target="#navbarExample01" aria-controls="navbarExample01" aria-expanded="false" aria-label="Toggle navigation">
+            <span style="color: black;">
+                <i class="fa-solid fa-bars fa-2x"></i>
+            </span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarExample01">
+            <ul class="navbar-nav me-auto mb-2 mb-lg-0" id="left_nav">
+                <li class="nav-item me-3 me-lg-0">
+                    <a class="nav-link" href="https://github.com/imjustnon" rel="nofollow" target="_blank">
+                    <i class="fab fa-github"></i>
+                    </a>
+                </li>
+                <li class="nav-item me-3 me-lg-0">
+                    <a class="nav-link" href="https://web.facebook.com/sbtvc" rel="nofollow" target="_blank">
+                    <i class="fab fa-facebook"></i>
+                    </a>
+                </li>
+            </ul>
+
+            <ul class="navbar-nav d-flex flex-row" id="right_nav">
+                <li class="nav-item active" >
+                    <a class="nav-link fw-bolder" aria-current="page" href="/p/home">หน้าหลัก</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link fw-bolder" href="/p/form" rel="nofollow">เเบบฟอร์มขอออกหอพัก</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link fw-bolder" href="/p/contact">ติดต่อ/สอบถาม</a>
+                </li>
+                <li class="nav-item">
+                    <% if(!session.is_login){ %>
+                        <a class="nav-link fw-bolder" href="/p/login">เข้าสู่ระบบ</a>
+                    <% } else { %>
+                        <a class="nav-link fw-bolder" id="logout_btn" href="#!">ออกจากระบบ</a>
+                    <% } %>
+                </li>
+            </ul>
+        </div>
+    </div>
+</nav>
+
+
+<script>
+const left_nav = document.getElementById("left_nav");
+const right_nav = document.getElementById("right_nav");
+
+// first detect when load
+if(!window.matchMedia("(min-width: 960px)").matches){
+    // reset class
+    left_nav.className = "";
+    right_nav.className = "";
+    // add class
+    left_nav.className = "navbar-nav me-auto flex-row";
+    right_nav.className = "navbar-nav d-flex mb-2 mb-lg-0";
+}
+
+// check by event to change class
+window.addEventListener("resize", function() {
+    if (window.matchMedia("(min-width: 960px)").matches) { // มากกว่า
+        // reset class
+        left_nav.className = "";
+        right_nav.className = "";
+        // add class
+        left_nav.className = "navbar-nav me-auto mb-2 mb-lg-0";
+        right_nav.className = "navbar-nav d-flex flex-row";
+    } 
+    else { // น้อยกว่า
+        // reset class
+        left_nav.className = "";
+        right_nav.className = "";
+        // add class
+        left_nav.className = "navbar-nav me-auto flex-row";
+        right_nav.className = "navbar-nav d-flex mb-2 mb-lg-0";
+    }
+});
+</script>
+
+
+<!-- add script when is_login is true -->
+<% if(session.is_login){ %>
+<script>
+    document.getElementById("logout_btn").addEventListener("click", async() =>{
+        axios.post("/api/login/remove_login").then(response =>{
+            if(response.data.status === "SUCCESS"){
+                swal({
+                    title: "ออกจากระบบ สำเร็จ",
+                    text: "คลิก OK เพื่อ รีโหลดหน้านี้",
+                    icon: "success",
+                })
+                .then(() => {
+                    window.location.reload();
+                });
+            }
+            else {
+                swal({
+                    title: "เกิดบางอย่างผิดพลาด",
+                    text: "โปรดลองใหมในภายหลัง",
+                    icon: "error",
+                })
+                .then(() => {
+                    window.location.reload();
+                });
+            }
+        });
+    });
+</script>
+<% } %>

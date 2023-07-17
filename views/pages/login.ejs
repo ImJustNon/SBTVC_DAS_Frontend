@@ -1,0 +1,66 @@
+<section class="mt-5">
+    <h4 class="mb-5 text-center"><strong>เข้าสู่ระบบ</strong></h4>
+
+    <div class="row d-flex justify-content-center">
+        <div class="col-md-6">
+            <form>
+
+                <!-- Email input -->
+                <div class="form-outline mb-4">
+                    <input type="text" id="student_id_input" name="student_id" class="form-control" required/>
+                    <label class="form-label" for="student_id_input">เลขประจำตัวนักเรียน / นักศึกษา</label>
+                </div>
+
+                <!-- Checkbox -->
+                <div class="form-check d-flex justify-content-center mb-4">
+                    <input
+                        class="form-check-input me-2"
+                        type="checkbox"
+                        value=""
+                        id="form2Example3"
+                        checked
+                    />
+                    <label class="form-check-label" for="form2Example3">
+                        ไม่มีไรเเค่กดๆ ไปเถอะ
+                    </label>
+                </div>
+
+                <!-- Submit button -->
+                <button type="button" id="submit_btn" class="btn btn-primary btn-block mb-2">
+                    ยืนยัน
+                </button>
+                <!-- Submit button -->
+
+                <!-- error message -->
+                <div class="text-center text-danger mb-5">
+                    <p><strong><span id="error_message"></span></strong></p>
+                </div>
+                <!-- error message -->
+            </form>
+        </div>
+    </div>
+</section>
+
+
+<script>
+    document.getElementById("submit_btn").addEventListener("click", async() =>{
+        const student_id_input_value = document.getElementById("student_id_input").value;
+        axios.post("/api/login/auth", {
+            student_id: student_id_input_value,
+        }).then(response =>{
+            if(response.data.status === "SUCCESS"){
+                swal({
+                    title: "เข้าสู่ระบบ สำเร็จ",
+                    text: "คลิก OK เพื่อ รีโหลดหน้านี้",
+                    icon: "success",
+                })
+                .then(() => {
+                    window.location.reload();
+                });
+            }
+            else {
+                document.getElementById("error_message").innerHTML = response.data.error;
+            }
+        });
+    });
+</script>
