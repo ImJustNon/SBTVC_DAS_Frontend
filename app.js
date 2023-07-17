@@ -27,15 +27,15 @@ const logger = morgan("dev");
 const static_public = express.static(path.join(__dirname,'./public'))
 const static_libs = express.static(path.join(__dirname,'./node_modules'))
 
-app.set('trust proxy', 1); // Trust the first proxy (Vercel proxy)
+// app.set('trust proxy', 1); // Trust the first proxy (Vercel proxy)
 app.use(cors());
 app.use(session({
     secret: config.app.session.secret,
     resave: false,
     saveUninitialized: true,
     cookie: {
-      secure: true,// config.app.session.secure === "true" ? true : false, // Set to true if using HTTPS
-      sameSite: 'none', // Allow cross-site cookies
+      secure: config.app.session.secure === "true" ? true : false, // Set to true if using HTTPS
+      // sameSite: 'none', // Allow cross-site cookies
       maxAge: 86400000, // Time in milliseconds, e.g., 1 week
     }
 }));
