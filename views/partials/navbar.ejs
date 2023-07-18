@@ -13,7 +13,7 @@
 </style>
 
 
-<nav class="navbar navbar-expand-lg navbar-dark d-lg-block" style="z-index: 2000;">
+<nav class="navbar navbar-expand-lg navbar-dark d-lg-block shadow-5" style="z-index: 2000;">
     <div class="container">
         
         <a class="navbar-brand nav-link" href="/p/home">
@@ -101,27 +101,36 @@ window.addEventListener("resize", function() {
 <% if(session.is_login){ %>
 <script>
     document.getElementById("logout_btn").addEventListener("click", async() =>{
-        axios.post("/api/login/remove_login").then(response =>{
-            if(response.data.status === "SUCCESS"){
-                swal({
-                    title: "ออกจากระบบ สำเร็จ",
-                    text: "คลิก OK เพื่อ รีโหลดหน้านี้",
-                    icon: "success",
-                })
-                .then(() => {
-                    window.location.reload();
+        swal({
+            title: "ต้องการจะออกจากระบบหรือไม่",
+            icon: "warning",
+            buttons: true,
+            dangerMode: true,
+        }).then((ok) =>{
+            if(ok){
+                axios.post("/api/login/remove_login").then(response =>{
+                    if(response.data.status === "SUCCESS"){
+                        swal({
+                            title: "ออกจากระบบ สำเร็จ",
+                            text: "คลิก OK เพื่อ รีโหลดหน้านี้",
+                            icon: "success",
+                        })
+                        .then(() => {
+                            window.location.reload();
+                        });
+                    }
+                    else {
+                        swal({
+                            title: "เกิดบางอย่างผิดพลาด",
+                            text: "โปรดลองใหมในภายหลัง",
+                            icon: "error",
+                        })
+                        .then(() => {
+                            window.location.reload();
+                        });
+                    }
                 });
-            }
-            else {
-                swal({
-                    title: "เกิดบางอย่างผิดพลาด",
-                    text: "โปรดลองใหมในภายหลัง",
-                    icon: "error",
-                })
-                .then(() => {
-                    window.location.reload();
-                });
-            }
+            } 
         });
     });
 </script>
