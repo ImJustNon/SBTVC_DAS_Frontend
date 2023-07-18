@@ -18,34 +18,24 @@ const morgan = require("morgan");
 
 
 // setup mongo
-// Set up MongoDB connection
-mongoose.connect('mongodb+srv://Kwan-0111:LIVPbGPbI6fVLM9E@cluster0.rp8ie.mongodb.net/myFirstDatabase?retryWrites=true&w=majority', {
+// =============================================================== Set up MongoDB connection ===============================================================
+mongoose.connect(config.database.mongodb.connection_string, {
     useNewUrlParser: true,
     useUnifiedTopology: true,
 }).then(() => {
-    console.log('Connected to MongoDB');
+    console.log('[DATABASE] MongoDB : Connected');
 }).catch((error) => {
-    console.log('MongoDB connection error:', error);
+    console.log('[DATABASE] MongoDB : ERROR : ', error);
 });
+// mongo session
 const mongoDBStore = new MongoDBStore({
-    uri: 'mongodb+srv://Kwan-0111:LIVPbGPbI6fVLM9E@cluster0.rp8ie.mongodb.net/myFirstDatabase?retryWrites=true&w=majority',
+    uri: config.database.mongodb.connection_string,
     collection: 'sessions',
 });
-  
 mongoDBStore.on('error', (error) => {
-    console.log('MongoDB session store error:', error);
+    console.log('[SESSION-ERROR] MongoDB session store error:', error);
 });
-app.use(session({
-    secret: config.app.session.secret,
-    resave: false,
-    saveUninitialized: true,
-    cookie: {
-        secure: false, // Set to true if using HTTPS
-        // sameSite: 'none', // Allow cross-site cookies
-        maxAge: 86400000, 
-    },
-    store: mongoDBStore,
-}));
+// =============================================================== Set up MongoDB connection ===============================================================
 
 
 const server = http.createServer(app);
@@ -60,9 +50,23 @@ const logger = morgan("dev");
 const static_public = express.static(path.join(__dirname,'./public'))
 const static_libs = express.static(path.join(__dirname,'./node_modules'))
 
+
+
 // app.set('trust proxy', 1); // Trust the first proxy (Vercel proxy)
 app.use(cors());
-
+// MongoDB ver
+app.use(session({
+    secret: config.app.session.secret,
+    resave: false,
+    saveUninitialized: true,
+    cookie: {
+        secure: config.app.session.secure === "true" ? true : false, // Set to true if using HTTPS
+        // sameSite: 'none', // Allow cross-site cookies
+        maxAge: 86400000,  // 86400000 ms = 1 day
+    },
+    store: mongoDBStore,
+}));
+// Original ver
 // app.use(session({
 //     secret: config.app.session.secret,
 //     resave: false,

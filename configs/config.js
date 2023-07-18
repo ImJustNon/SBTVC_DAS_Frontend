@@ -16,6 +16,9 @@ module.exports = {
             password: process.env.MYSQL_PASSWORD || "",                                     
             port: 3306,                                             
             database: process.env.MYSQL_DATABASE || "",            
+        },
+        mongodb: {
+            connection_string: process.env.MONGO_CONNECTION_STRING || ""
         }
     },
     api: {
