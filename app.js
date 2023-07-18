@@ -60,7 +60,7 @@ app.use(session({
     resave: false,
     saveUninitialized: true,
     cookie: {
-        secure: config.app.session.secure === "true" ? true : false, // Set to true if using HTTPS
+        secure: false, // Set to true if using HTTPS
         // sameSite: 'none', // Allow cross-site cookies
         maxAge: 86400000,  // 86400000 ms = 1 day
     },
