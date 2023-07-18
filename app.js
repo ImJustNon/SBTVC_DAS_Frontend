@@ -1,5 +1,6 @@
 const express = require("express");
 const session = require('express-session');
+const MongoDBStore = require('connect-mongodb-session')(session);
 const app = express();
 
 require("dotenv").config();
@@ -13,6 +14,28 @@ const fs = require("fs");
 const bodyparser = require("body-parser");
 const useragent = require("express-useragent");
 const morgan = require("morgan");
+
+
+// setup mongo
+const mongoDBStore = new MongoDBStore({
+    uri: 'mongodb+srv://Kwan-0111:LIVPbGPbI6fVLM9E@cluster0.rp8ie.mongodb.net/myFirstDatabase?retryWrites=true&w=majority',
+    collection: 'sessions',
+});
+  
+mongoDBStore.on('error', (error) => {
+    console.log('MongoDB session store error:', error);
+});
+app.use(session({
+    secret: config.app.session.secret,
+    resave: false,
+    saveUninitialized: true,
+    cookie: {
+        secure: true, // Set to true if using HTTPS
+        sameSite: 'none', // Allow cross-site cookies
+        maxAge: 86400000, 
+    },
+    store: mongoDBStore,
+}));
 
 
 const server = http.createServer(app);
@@ -29,16 +52,17 @@ const static_libs = express.static(path.join(__dirname,'./node_modules'))
 
 // app.set('trust proxy', 1); // Trust the first proxy (Vercel proxy)
 app.use(cors());
-app.use(session({
-    secret: config.app.session.secret,
-    resave: false,
-    saveUninitialized: true,
-    cookie: {
-      secure: config.app.session.secure === "true" ? true : false, // Set to true if using HTTPS
-      // sameSite: 'none', // Allow cross-site cookies
-      maxAge: 86400000, // Time in milliseconds, e.g., 1 week
-    }
-}));
+
+// app.use(session({
+//     secret: config.app.session.secret,
+//     resave: false,
+//     saveUninitialized: true,
+//     cookie: {
+//       secure: config.app.session.secure === "true" ? true : false, // Set to true if using HTTPS
+//       // sameSite: 'none', // Allow cross-site cookies
+//       maxAge: 86400000, // Time in milliseconds, e.g., 1 week
+//     }
+// }));
 app.use(useragent.express());
 app.set('views', path.join(__dirname, './views'));
 app.set('view engine', 'ejs');
