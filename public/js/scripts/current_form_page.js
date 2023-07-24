@@ -94,7 +94,7 @@ function update_status_panel(){
         status_auth_leave.innerHTML = response.data.data.results[0].out_location_auth === "true" ? "✅" : "❌";
         status_auth_come.innerHTML = response.data.data.results[0].in_location_auth === "true" ? "✅" : "❌";
         // backin button
-        form_backin_btn.disabled = response.data.data.results[0].in_location_auth === "true" ? false : true;
+        // form_backin_btn.disabled = response.data.data.results[0].in_location_auth === "true" ? false : true;
         // update qr request title
         qr_title.innerHTML = response.data.data.results[0].out_location_auth === "true" ? "QRCODE (เข้า)" : "QRCODE (ออก)";
         // log
