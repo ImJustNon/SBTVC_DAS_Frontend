@@ -143,6 +143,7 @@ qr_request_btn.addEventListener("click", () =>{
         console.log(err);
         return;
     });
+    
 });
 
 
