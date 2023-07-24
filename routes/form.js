@@ -7,12 +7,35 @@ const { check_login } = require("../utils/check_login.js");
 
 router.get("/p/form", check_login, async(req, res) =>{
 
-    return res.render("index.ejs", {
-        PAGE: "FORM",
-        session: {
-            is_login: req.session.is_login
-        }
-    });
+    const check_form_history = await axios.get(`https://sbtvc-das-api.nonlnwza.xyz/api/form/check_send_form_history?student_id=${req.session.student_id}`).catch(err => console.log(err));
+
+
+    if(check_form_history.data.data.have_data){ // หน้าเเบบฟอร์มที่ส่งไปเเล้ว
+        return res.render("index.ejs", {
+            PAGE: "FORM",
+            session: {
+                is_login: req.session.is_login,
+                student_id: req.session.student_id,    
+            },
+            server: {
+                have_data: check_form_history.data.data.have_data,
+                form_data: check_form_history.data.data.results[0],
+            }
+        });
+    }
+    else { //หน้าสร้างฟอร์มใหม่
+        return res.render("index.ejs", {
+            PAGE: "FORM",
+            session: {
+                is_login: req.session.is_login,
+                student_id: req.session.student_id,
+            },
+            server: {
+                have_data: check_form_history.data.data.have_data,
+            }
+        });
+    }
+    
 });
 
 module.exports = router;

@@ -1,0 +1,5 @@
+<% if(server.have_data){ %>
+    <%- include("./current_form.ejs") %>
+<% } else { %>
+    <%- include("./new_form.ejs") %>
+<% } %>

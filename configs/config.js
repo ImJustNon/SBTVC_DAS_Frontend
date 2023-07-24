@@ -23,5 +23,6 @@ module.exports = {
     },
     api: {
         secret_key: "nonlnwza"
-    }
+    },
+    dev_mode: process.env.DEV_MODE === "true" ? true : false,
 }

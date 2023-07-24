@@ -46,7 +46,7 @@ const urlEncoded = bodyparser.urlencoded({
 const jsonEncoded = express.json({
     limit: '50mb',
 });
-const logger = morgan("dev");
+const logger = morgan(config.dev_mode ? "dev" : "combined");
 const static_public = express.static(path.join(__dirname,'./public'))
 const static_libs = express.static(path.join(__dirname,'./node_modules'))
 

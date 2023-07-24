@@ -17,6 +17,8 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"/>
     <!-- AOS CSS -->
     <link rel="stylesheet" href="../libs/aos/dist/aos.css">
+    <!-- Notyf CSS -->
+    <link rel="stylesheet" href="../libs/notyf/notyf.min.css">
 
     <% if(PAGE === "HOME"){ %>
       <link rel="stylesheet" href="../css/home.css">
@@ -40,7 +42,7 @@
     <% if(PAGE === "HOME"){ %>
       <%- include("./pages/home.ejs") %>
     <% } else if(PAGE === "FORM"){ %>
-      <%- include("./pages/form.ejs") %>
+      <%- include("./pages/form/index.ejs") %>
     <% } else if(PAGE === "LOGIN"){ %>
       <%- include("./pages/login.ejs") %>
     <% } %>
