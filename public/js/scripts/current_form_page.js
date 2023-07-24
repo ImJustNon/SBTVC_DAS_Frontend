@@ -145,7 +145,7 @@ qr_request_btn.addEventListener("click", () =>{
     });
 });
 
-
+console.log("lwza");
 // // ============================================================= Old Code =============================================================================================================
 
 // // request data from API and auto insert to input element
