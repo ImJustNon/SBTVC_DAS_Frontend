@@ -22,6 +22,7 @@ const input_parent_lastname = document.getElementById("input_parent_lastname");
 const input_parent_phone_number = document.getElementById("input_parent_phone_number");
 // file upload input
 const input_upload_image = document.getElementById("input_upload_image");
+const input_upload_link = document.getElementById("input_upload_link");
 
 // status panel element
 const status_allow = document.getElementById("status_allow");
@@ -78,8 +79,8 @@ document.getElementById("form_submit_btn").addEventListener("click", async() =>{
                     parent_name : input_parent_name.value,
                     parent_lastname : input_parent_lastname.value,
                     parent_phone_number : input_parent_phone_number.value,
-                    image_link : "https://upload-api.nonlnwza.xyz/image?id=659565464654",
-                    image_name : "lnwza.png",
+                    image_link : input_upload_link.value,
+                    image_name : input_upload_image.files[0].name,
                 }, {
                     headers: {
                         'Content-Type': 'application/json'
@@ -110,6 +111,37 @@ document.getElementById("form_submit_btn").addEventListener("click", async() =>{
 
 
 
+
+// image upload script
+document.querySelector("#input_upload_image").addEventListener("change", readFile);
+function readFile() {
+    if (!this.files || !this.files[0]) return;
+    const FR = new FileReader();
+    FR.readAsDataURL(this.files[0]);
+    FR.addEventListener("load", async function(evt) {
+        // ส่ง Base64 กลับ
+        // document.getElementById("uploadfile").value = evt.target.result;
+        const image_base64 = evt.target.result;
+        const response = await axios.post('http://45.141.27.54:8800/api/upload-image', {
+            originalFileName: input_upload_image.files[0].name,
+            file: image_base64,
+        }, {
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        });
+
+        if(response.data.status === "FAIL"){
+            notyf.error(response.data.error);
+            console.log(response.data.error);
+            return;
+        }
+
+        input_upload_link.value = response.data.link;
+        notyf.success("อัปโหลดภาพสำเร็จ");
+        console.log("[FORM-PAGE-NEW] Upload image succesful");
+    }); 
+}
 
 
 
@@ -204,9 +236,13 @@ function check_sign_input(){
         notyf.error("โปรดระบุ : เบอร์โทรศัพท์(ผู้ปกครอง)"); 
         return 0;
     }
-    // if(input_upload_image.value.length < 1){
-    //     notyf.error("โปรดอัปโหลด : ภาพหลักฐาน"); 
-    //     return 0;
-    // }
+    if(input_upload_image.files.length == 0 ){
+        notyf.error("โปรดอัปโหลด : ภาพหลักฐาน"); 
+        return 0;
+    }
+    if(input_upload_link.value.length < 1){
+        notyf.error("ไม่พบลิ้งภาพ : โปรดลองอัปโหลดภาพใหม่อีกครั้ง"); 
+        return 0;
+    }
     return 1;
 }

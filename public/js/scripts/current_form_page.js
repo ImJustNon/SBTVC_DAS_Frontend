@@ -32,7 +32,7 @@ const status_auth_come = document.getElementById("status_auth_come");
 const form_backin_btn = document.getElementById("form_backin_btn");
 
 
-// qr section
+// qr code panel section
 const qr_request_btn = document.getElementById("qr_request_btn");
 const qr_title = document.getElementById("qr_title");
 const qr_img = document.getElementById("qr_img");
@@ -108,7 +108,7 @@ function update_status_panel(){
 }
 
 
-// qr code section
+// qr code panel section
 qr_request_btn.addEventListener("click", () =>{
     axios.get(`https://sbtvc-das-api.nonlnwza.xyz/api/form/check_send_form_history?student_id=${student_id}`).then(response =>{
         if(response.data.status === "FAIL"){
