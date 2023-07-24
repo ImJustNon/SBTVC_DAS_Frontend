@@ -27,7 +27,6 @@ const input_upload_image = document.getElementById("input_upload_image");
 const status_allow = document.getElementById("status_allow");
 const status_auth_leave = document.getElementById("status_auth_leave");
 const status_auth_come = document.getElementById("status_auth_come");
-const status_image = document.getElementById("status_image");
 const status_send_form = document.getElementById("status_send_form");
 
 // set default status panel
@@ -35,7 +34,6 @@ status_send_form.innerHTML = "❌";
 status_allow.innerHTML = "❌";
 status_auth_leave.innerHTML = "❌";
 status_auth_come.innerHTML = "❌";
-status_image.innerHTML = "❌";
 
 
 
