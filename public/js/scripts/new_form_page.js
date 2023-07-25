@@ -23,6 +23,7 @@ const input_parent_phone_number = document.getElementById("input_parent_phone_nu
 // file upload input
 const input_upload_image = document.getElementById("input_upload_image");
 const input_upload_link = document.getElementById("input_upload_link");
+const input_upload_spinner = document.getElementById("input_upload_spinner");
 
 // status panel element
 const status_allow = document.getElementById("status_allow");
@@ -119,6 +120,8 @@ function readFile() {
     const FR = new FileReader();
     FR.readAsDataURL(this.files[0]);
     FR.addEventListener("load", async function(evt) {
+        // show spinner
+        input_upload_spinner.classList.remove("d-none");
         // ส่ง Base64 กลับ
         // document.getElementById("uploadfile").value = evt.target.result;
         const image_base64 = evt.target.result;
@@ -138,6 +141,9 @@ function readFile() {
                 return;
             }
 
+            // hidden spinner
+            input_upload_spinner.classList.add("d-none");
+            
             input_upload_link.value = response.data.data.link;
             notyf.success("อัปโหลดภาพสำเร็จ");
             console.log("[FORM-PAGE-NEW] Upload image succesful");
