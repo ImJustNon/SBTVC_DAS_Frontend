@@ -122,24 +122,30 @@ function readFile() {
         // ส่ง Base64 กลับ
         // document.getElementById("uploadfile").value = evt.target.result;
         const image_base64 = evt.target.result;
-        const response = await axios.post('http://45.141.27.54:8800/api/upload-image', {
-            originalFileName: input_upload_image.files[0].name,
-            file: image_base64,
-        }, {
-            headers: {
-                'Content-Type': 'application/json'
+        try {
+            const response = await axios.post('https://upload-bypass.vercel.app/api/bypass/upload', {
+                originalFileName: input_upload_image.files[0].name,
+                file: image_base64,
+            }, {
+                headers: {
+                    'Content-Type': 'application/json'
+                }
+            });
+
+            if(response.data.status === "FAIL"){
+                notyf.error(response.data.error);
+                console.log(response.data.error);
+                return;
             }
-        });
 
-        if(response.data.status === "FAIL"){
-            notyf.error(response.data.error);
-            console.log(response.data.error);
-            return;
+            input_upload_link.value = response.data.data.link;
+            notyf.success("อัปโหลดภาพสำเร็จ");
+            console.log("[FORM-PAGE-NEW] Upload image succesful");
         }
-
-        input_upload_link.value = response.data.link;
-        notyf.success("อัปโหลดภาพสำเร็จ");
-        console.log("[FORM-PAGE-NEW] Upload image succesful");
+        catch(err){
+            console.log(err);
+            notyf.error(err);    
+        }
     }); 
 }
 
