@@ -144,6 +144,44 @@ qr_request_btn.addEventListener("click", () =>{
         return;
     });
 });
+
+
+// backin button
+form_backin_btn.addEventListener("click", async() =>{
+    try {
+        const response = await axios.post('https://sbtvc-das-api.nonlnwza.xyz/api/form/remove_form', {
+            student_id: student_id,
+        }, {
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        });
+
+        if(response.data.status === "FAIL"){
+            notyf.error(response.data.error);
+            console.log(response.data.error);
+            return;
+        }  
+
+        if(response.data.status === "SUCCESS"){
+            swal({
+                title: "ส่งเเบบฟอร์มเรียบร้อย",
+                text: "คลิ๊กเพื่อ Reload หน้านี้",
+                icon: "success",
+                buttons: "OK",
+            }).then(() => {
+                window.location.reload();
+                console.log("[FORM-PAGE-CURRENT] Remove form successful");
+                return;
+            });
+        }
+    }
+    catch(err){
+        notyf.error(err);
+        console.log(err);
+        return;
+    }
+});
 // // ============================================================= Old Code =============================================================================================================
 
 // // request data from API and auto insert to input element

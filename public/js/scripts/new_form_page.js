@@ -101,8 +101,9 @@ document.getElementById("form_submit_btn").addEventListener("click", async() =>{
                         buttons: "OK",
                     }).then(() => {
                         window.location.reload();
+                        console.log("[FORM-PAGE-NEW] Send form successful")
+                        return;
                     });
-                    return;
                 }
             }
         });
