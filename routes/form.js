@@ -3,7 +3,7 @@ const { connection } = require("../database/connect.js");
 const router = express.Router();
 
 const axios = require("axios");
-const { check_login } = require("../utils/check_login.js");
+const { check_login } = require("../middleware/check_login.js");
 
 router.get("/p/form", check_login, async(req, res) =>{
 

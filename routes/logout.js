@@ -8,7 +8,7 @@ const urlEncoded = bodyparser.urlencoded({
     extended: true,
     limit: "50mb",
 });
-const { check_login } = require("../utils/check_login.js");
+const { check_login } = require("../middleware/check_login.js");
 
 
 router.post("/api/login/remove_login", urlEncoded, async(req, res) =>{

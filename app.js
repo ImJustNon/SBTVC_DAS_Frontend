@@ -35,6 +35,10 @@ const mongoDBStore = new MongoDBStore({
 mongoDBStore.on('error', (error) => {
     console.log('[SESSION-ERROR] MongoDB session store error:', error);
 });
+mongoDBStore.on('connected', (error) => {
+    console.log('[SESSION] MongoDB session store : Connected');
+    startListenPort();
+});
 // =============================================================== Set up MongoDB connection ===============================================================
 
 
@@ -98,7 +102,11 @@ fs.readdirSync("./routes").forEach(async files => {
     }
 });
 
-server.listen(config.app.port);
+
+
+function startListenPort(){
+    server.listen(config.app.port);
+}
 server.on("listening", async() =>{
     console.log(("[APP] ") + (`Localhost : ${config.app.address}:${config.app.port}`));
     console.log(("[APP] ") + (`Listening on port : `) + (config.app.port));
