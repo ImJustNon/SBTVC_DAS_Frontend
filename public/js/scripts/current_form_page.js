@@ -148,8 +148,10 @@ qr_request_btn.addEventListener("click", () =>{
 
 // backin button
 form_backin_btn.addEventListener("click", async() =>{
-    try {
-        const response = await axios.post('https://sbtvc-das-api.nonlnwza.xyz/api/form/remove_form', {
+    try{
+        // Update to new table
+        console.log("[FORM-PAGE-CURRENT] trying to send request to backin api");
+        const response = await axios.post('https://sbtvc-das-api.nonlnwza.xyz/api/form/update_backin', {
             student_id: student_id,
         }, {
             headers: {
@@ -159,29 +161,83 @@ form_backin_btn.addEventListener("click", async() =>{
 
         if(response.data.status === "FAIL"){
             notyf.error(response.data.error);
-            console.log(response.data.error);
+            console.log(`[Move from current table]` + response.data.error);
             return;
-        }  
-
-        if(response.data.status === "SUCCESS"){
-            swal({
-                title: "ส่งเเบบฟอร์มเรียบร้อย",
-                text: "คลิ๊กเพื่อ Reload หน้านี้",
-                icon: "success",
-                buttons: "OK",
-            }).then(() => {
-                window.location.reload();
-                console.log("[FORM-PAGE-CURRENT] Remove form successful");
-                return;
-            });
         }
+        notyf.success(`[Task 1] อัปเดตฐานข้อมูลเรียบร้อย`);
+        console.log(`[FORM-PAGE-CURRENT] insert to new table : success`);
+
+        // delete from current data from current table
+        const response2 = await axios.post('https://sbtvc-das-api.nonlnwza.xyz/api/form/remove_form', {
+            student_id: student_id,
+        }, {
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        });
+
+        if(response2.data.status === "FAIL"){
+            notyf.error(response.data.error);
+            console.log(`[delete from current table]` + response.data.error);
+            return;
+        }
+
+
+        notyf.success(`[Task 2] อัปเดตฐานข้อมูลเรียบร้อย`);
+        console.log(`[FORM-PAGE-CURRENT] delete current data from table : success`);
+
+        swal({
+            title: "อัปเดตสำเร็จ",
+            text: "คลิ๊กเพื่อ Reload หน้านี้",
+            icon: "success",
+            buttons: "OK",
+        }).then(() => {
+            window.location.reload();
+            return;
+        });
     }
     catch(err){
         notyf.error(err);
         console.log(err);
         return;
     }
-});
+}); 
+
+// form_backin_btn.addEventListener("click", async() =>{
+//     try {
+//         const response = await axios.post('https://sbtvc-das-api.nonlnwza.xyz/api/form/remove_form', {
+//             student_id: student_id,
+//         }, {
+//             headers: {
+//                 'Content-Type': 'application/json'
+//             }
+//         });
+
+//         if(response.data.status === "FAIL"){
+//             notyf.error(response.data.error);
+//             console.log(response.data.error);
+//             return;
+//         }  
+
+//         if(response.data.status === "SUCCESS"){
+//             swal({
+//                 title: "ส่งเเบบฟอร์มเรียบร้อย",
+//                 text: "คลิ๊กเพื่อ Reload หน้านี้",
+//                 icon: "success",
+//                 buttons: "OK",
+//             }).then(() => {
+//                 window.location.reload();
+//                 console.log("[FORM-PAGE-CURRENT] Remove form successful");
+//                 return;
+//             });
+//         }
+//     }
+//     catch(err){
+//         notyf.error(err);
+//         console.log(err);
+//         return;
+//     }
+// });
 // // ============================================================= Old Code =============================================================================================================
 
 // // request data from API and auto insert to input element
