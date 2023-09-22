@@ -46,8 +46,17 @@
 
 <script>
     document.getElementById("submit_btn").addEventListener("click", async() =>{
+        await PostLogin();
+    });
+    document.addEventListener("keyup", async event =>{
+        if (event.key !== 'Enter') return;
+        await PostLogin();
+    });
+
+
+    async function PostLogin(){
         const student_id_input_value = document.getElementById("student_id_input").value;
-        axios.post("/api/login/auth", {
+        await axios.post("/api/login/auth", {
             student_id: student_id_input_value,
         }).then(response =>{
             if(response.data.status === "SUCCESS"){
@@ -64,5 +73,5 @@
                 document.getElementById("error_message").innerHTML = response.data.error;
             }
         });
-    });
+    }
 </script>
