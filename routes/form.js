@@ -7,7 +7,7 @@ const { check_login } = require("../middleware/check_login.js");
 
 router.get("/p/form", check_login, async(req, res) =>{
 
-    const check_form_history = await axios.get(`https://sbtvc-das-api.nonlnwza.xyz/api/form/check_send_form_history?student_id=${req.session.student_id}`).catch(err => console.log(err));
+    const check_form_history = await axios.get(`http://127.0.0.1:808/api/form/check_send_form_history?student_id=${req.session.student_id}`).catch(err => console.log(err));
 
 
     if(check_form_history.data.data.have_data){ // หน้าเเบบฟอร์มที่ส่งไปเเล้ว

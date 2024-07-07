@@ -40,7 +40,7 @@ status_auth_come.innerHTML = "❌";
 
 
 // auto fill
-axios.get(`https://sbtvc-das-api.nonlnwza.xyz/api/users/${student_id}`).then(response =>{
+axios.get(`http://127.0.0.1:808/api/users/${student_id}`).then(response =>{
     input_student_id.value = response.data.data.student_id;
     input_student_prefix.value = response.data.data.student_prefix;
     input_student_name.value = response.data.data.student_name;
@@ -64,7 +64,7 @@ document.getElementById("form_submit_btn").addEventListener("click", async() =>{
             dangerMode: true,
         }).then(async(submit) => {
             if (submit) {
-                const response = await axios.post('https://sbtvc-das-api.nonlnwza.xyz/api/form/send_form', {
+                const response = await axios.post('http://127.0.0.1:808/api/form/send_form', {
                     student_year_level: input_year_level.value,
                     student_dorm_number: input_student_dorm_number.value,
                     student_room_number: input_student_room_number.value,
@@ -127,7 +127,7 @@ function readFile() {
         // document.getElementById("uploadfile").value = evt.target.result;
         const image_base64 = evt.target.result;
         try {
-            const response = await axios.post('https://upload-bypass.vercel.app/api/bypass/upload', {
+            const response = await axios.post('http://127.0.0.1:8800/api/upload-image', { //http://127.0.0.1:8800/api/bypass/upload
                 originalFileName: input_upload_image.files[0].name,
                 file: image_base64,
             }, {
@@ -145,7 +145,7 @@ function readFile() {
             // hidden spinner
             input_upload_spinner.classList.add("d-none");
             
-            input_upload_link.value = response.data.data.link;
+            input_upload_link.value = response.data.link;
             notyf.success("อัปโหลดภาพสำเร็จ");
             console.log("[FORM-PAGE-NEW] Upload image succesful");
         }
