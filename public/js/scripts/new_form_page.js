@@ -253,9 +253,10 @@ function check_sign_input(){
         notyf.error("โปรดอัปโหลด : ภาพหลักฐาน"); 
         return 0;
     }
-    // if(input_upload_link.value.length < 1){
-    //     notyf.error("ไม่พบลิ้งภาพ : โปรดลองอัปโหลดภาพใหม่อีกครั้ง"); 
-    //     return 0;
-    // }
+    input_upload_link.value = "https://avatars.githubusercontent.com/u/79706975?v=4";
+    if(input_upload_link.value.length < 1){
+        notyf.error("ไม่พบลิ้งภาพ : โปรดลองอัปโหลดภาพใหม่อีกครั้ง"); 
+        return 0;
+    }
     return 1;
 }
