@@ -38,7 +38,7 @@ const qr_title = document.getElementById("qr_title");
 const qr_img = document.getElementById("qr_img");
 
 // auto fill
-axios.get(`http://127.0.0.1:808/api/form/check_send_form_history?student_id=${student_id}`).then(response =>{
+axios.get(`https://sbtvc-das-backend-2.vercel.app/api/form/check_send_form_history?student_id=${student_id}`).then(response =>{
     if(response.data.status === "FAIL"){
         notyf.error(response.data.error);
         console.log(response.data.error);
@@ -84,7 +84,7 @@ document.getElementById("form_status_btn").addEventListener("click", () =>{
     update_status_panel();
 });
 function update_status_panel(){
-    axios.get(`http://127.0.0.1:808/api/form/check_send_form_history?student_id=${student_id}`).then(response =>{
+    axios.get(`https://sbtvc-das-backend-2.vercel.app/api/form/check_send_form_history?student_id=${student_id}`).then(response =>{
         if(response.data.status === "FAIL"){
             notyf.error(response.data.error);
             console.log(response.data.error);
@@ -110,7 +110,7 @@ function update_status_panel(){
 
 // qr code panel section
 qr_request_btn.addEventListener("click", () =>{
-    axios.get(`http://127.0.0.1:808/api/form/check_send_form_history?student_id=${student_id}`).then(response =>{
+    axios.get(`https://sbtvc-das-backend-2.vercel.app/api/form/check_send_form_history?student_id=${student_id}`).then(response =>{
         if(response.data.status === "FAIL"){
             notyf.error(response.data.error);
             console.log(response.data.error);
@@ -121,7 +121,7 @@ qr_request_btn.addEventListener("click", () =>{
         const type = "home";
         const for_ = response.data.data.results[0].out_location_auth === "true" ? "in" : "out";
 
-        axios.get(`http://127.0.0.1:808/api/generator/qr_code_generator?location_auth_id=${location_auth_id}&type=${type}&for_=${for_}`).then(response =>{
+        axios.get(`https://sbtvc-das-backend-2.vercel.app/api/generator/qr_code_generator?location_auth_id=${location_auth_id}&type=${type}&for_=${for_}`).then(response =>{
             if(response.data.status === "FAIL"){
                 notyf.error(response.data.error);
                 console.log(response.data.error);
@@ -151,7 +151,7 @@ form_backin_btn.addEventListener("click", async() =>{
     try{
         // Update to new table
         console.log("[FORM-PAGE-CURRENT] trying to send request to backin api");
-        const response = await axios.post('http://127.0.0.1:808/api/form/update_backin', {
+        const response = await axios.post('https://sbtvc-das-backend-2.vercel.app/api/form/update_backin', {
             student_id: student_id,
         }, {
             headers: {
@@ -168,7 +168,7 @@ form_backin_btn.addEventListener("click", async() =>{
         console.log(`[FORM-PAGE-CURRENT] insert to new table : success`);
 
         // delete from current data from current table
-        const response2 = await axios.post('http://127.0.0.1:808/api/form/remove_form', {
+        const response2 = await axios.post('https://sbtvc-das-backend-2.vercel.app/api/form/remove_form', {
             student_id: student_id,
         }, {
             headers: {
@@ -205,7 +205,7 @@ form_backin_btn.addEventListener("click", async() =>{
 
 // form_backin_btn.addEventListener("click", async() =>{
 //     try {
-//         const response = await axios.post('http://127.0.0.1:808/api/form/remove_form', {
+//         const response = await axios.post('https://sbtvc-das-backend-2.vercel.app/api/form/remove_form', {
 //             student_id: student_id,
 //         }, {
 //             headers: {
@@ -242,7 +242,7 @@ form_backin_btn.addEventListener("click", async() =>{
 
 // // request data from API and auto insert to input element
 // (async function(){
-// axios.get(`http://127.0.0.1:808/api/users/${student_id}`).then(response =>{
+// axios.get(`https://sbtvc-das-backend-2.vercel.app/api/users/${student_id}`).then(response =>{
 //     if(response.data.status === "FAIL"){
 //     notyf.error(response.data.error);
 //     console.error("[FORM-PAGE] Can't find student data from this student_id :: ERROR :: " + response.data.error);
@@ -359,7 +359,7 @@ form_backin_btn.addEventListener("click", async() =>{
 //     return;
 // }
 
-// const response = await axios.post('http://127.0.0.1:808/api/form/send_form', {
+// const response = await axios.post('https://sbtvc-das-backend-2.vercel.app/api/form/send_form', {
 //     student_dorm_number: "1",
 //     student_room_number: "202",
 //     student_phone_number: "0936525578",
@@ -391,7 +391,7 @@ form_backin_btn.addEventListener("click", async() =>{
 
 // // status manager
 // async function check_form_history(){
-//     axios.get(`http://127.0.0.1:808/api/form/check_send_form_history?student_id=${student_id}`).then(response =>{
+//     axios.get(`https://sbtvc-das-backend-2.vercel.app/api/form/check_send_form_history?student_id=${student_id}`).then(response =>{
 //         if(response.data.status === "FAIL"){
 //             return notyf.error(response.data.error);
 //         }
