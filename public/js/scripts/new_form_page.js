@@ -40,7 +40,7 @@ status_auth_come.innerHTML = "❌";
 
 
 // auto fill
-axios.get(`https://sbtvc-das-backend-2.vercel.app/api/users/${student_id}`).then(response =>{
+axios.get(`https://sbtvc-das-backend-2.vercel.app/api/users/${student_id}`).then(response =>{ 
     input_student_id.value = response.data.data.student_id;
     input_student_prefix.value = response.data.data.student_prefix;
     input_student_name.value = response.data.data.student_name;
